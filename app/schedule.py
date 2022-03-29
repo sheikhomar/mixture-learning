@@ -9,7 +9,7 @@ from rq import Queue
 @click.command(help="Schedule experiments.")
 def main():
     q = Queue(connection=Redis())
-    q.enqueue(ExperimentRunner().run)
+    q.enqueue(ExperimentRunner().run, job_timeout="24h")
 
 
 if __name__ == "__main__":
