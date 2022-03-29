@@ -11,6 +11,10 @@ class ExperimentRunner:
         pass
         
     def run(self) -> None:
+        with threadpool_limits(limits=1):
+            self._run()
+    
+    def _run(self) -> None:
         data_set = SyntheticDataSet(
             n_dim=30,
             min_distance=4,
@@ -34,8 +38,7 @@ class ExperimentRunner:
 
 @click.command(help="Runs experiments.")
 def main():
-    with threadpool_limits(limits=1):
-        ExperimentRunner().run()
+    ExperimentRunner().run()
 
 
 if __name__ == "__main__":
