@@ -17,9 +17,22 @@ This projects relies on [pyenv](https://github.com/pyenv/pyenv) and [Poetry](htt
    ```bash
    poetry install
    ```
+
 3. Prepare Redis
 
    ```bash
    docker volume create ml-redis-data
    docker run --name ml-redis -v ml-redis-data:/data -p 6379:6379 -d redis redis-server --save 60 1 --loglevel warning
+   ```
+
+4. Schedule an experiment
+
+   ```bash
+   poetry run python -m app.schedule
+   ```
+
+5. Run RQ worker
+
+   ```bash
+   poetry run rq worker
    ```
