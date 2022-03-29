@@ -1,5 +1,7 @@
 import click
 
+from threadpoolctl import threadpool_limits
+
 from app.algorithms import random_walk
 from app.data.datasets import SyntheticDataSet
 
@@ -10,7 +12,7 @@ class ExperimentRunner:
         
     def run(self) -> None:
         data_set = SyntheticDataSet(
-            n_dim=4,
+            n_dim=30,
             min_distance=4,
             component_size=50,
             variance=0.5,
@@ -32,7 +34,8 @@ class ExperimentRunner:
 
 @click.command(help="Runs experiments.")
 def main():
-    ExperimentRunner().run()
+    with threadpool_limits(limits=1):
+        ExperimentRunner().run()
 
 
 if __name__ == "__main__":
