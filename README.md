@@ -21,7 +21,7 @@ This projects relies on [pyenv](https://github.com/pyenv/pyenv) and [Poetry](htt
 3. Create jobs
 
    ```bash
-   poetry run python -m app.create_jobs -q data/queue -o data/experiments -t rwe -n n_dim
+   poetry run python -m app.create_jobs -q data/queue -o data/experiments -t rwe -n n_dim -r 1
    ```
 
 4. Run worker
