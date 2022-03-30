@@ -120,7 +120,7 @@ def generate_dimension_experiments() -> Generator[RandomWalkEmbeddingExperimentP
             data=params
         )
 
-def generate_experiments(experiment_type: str) -> Generator[RandomWalkEmbeddingExperimentParams, None, None]:
+def generate_experiments(experiment_type: str) -> Generator[ExperimentParams, None, None]:
     if experiment_type == "n_dim":
         return generate_dimension_experiments()
 
