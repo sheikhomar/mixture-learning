@@ -1,5 +1,8 @@
 import click
+import numpy as np
+import pandas as pd
 
+from sklearn.cluster import KMeans
 from threadpoolctl import threadpool_limits
 
 from app.algorithms import random_walk
@@ -36,6 +39,19 @@ class ExperimentRunner:
         )
 
         print(f"Done! Embedding shape {embeddings.shape}")
+        
+        n_classes = np.unique(y).shape[0]
+        kmeans = KMeans(n_clusters=n_classes)
+        kmeans.fit(embeddings)
+
+        df_results = pd.DataFrame({
+            "noisy_label": y,
+            "true_label": data_set.true_labels,
+            "cluster_label": kmeans.labels_
+        })
+
+        print(df_results.groupby(["true_label", "cluster_label"])[["cluster_label"]].count())
+
 
 
 @click.command(help="Runs experiments.")
