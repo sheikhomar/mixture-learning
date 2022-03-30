@@ -30,7 +30,8 @@ class ExperimentRunner:
             X=X,
             y=y,
             bias_factor=1,
-            distance_metric="sqeuclidean"
+            distance_metric="sqeuclidean",
+            n_steps=10,
         )
 
         print(f"Done! Embedding shape {embeddings.shape}")

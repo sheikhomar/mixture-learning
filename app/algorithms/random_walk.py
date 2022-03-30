@@ -4,6 +4,10 @@ from numba import jit
 
 from sklearn.metrics import pairwise_distances
 
+from app.helpers.logger import get_logger
+
+logger = get_logger("random_walk")
+
 
 @jit(nopython=True, fastmath=True)
 def random_walk_step(transition_matrix: np.ndarray, energy_vector: np.ndarray) -> np.ndarray:
@@ -13,7 +17,7 @@ def random_walk_step(transition_matrix: np.ndarray, energy_vector: np.ndarray) -
 
 
 @jit(nopython=True, fastmath=True)
-def embed_point_using_random_walk(transition_matrix: np.ndarray, starting_point: int, n_steps: int=1000):
+def embed_point_using_random_walk(transition_matrix: np.ndarray, starting_point: int, n_steps: int):
     r = np.zeros(transition_matrix.shape[0])
     r[starting_point] = 1
     for _ in range(n_steps):
@@ -21,16 +25,27 @@ def embed_point_using_random_walk(transition_matrix: np.ndarray, starting_point:
     return r
 
 
-def compute_random_walk_embeddings(X: np.ndarray, y: np.ndarray, bias_factor: float, distance_metric: str):
+@jit(nopython=True, fastmath=True)
+def compute_point_embeddings(transition_matrix: np.ndarray, point_indices: np.ndarray, n_steps: int, embeddings: np.ndarray):
+    for point_index in point_indices:
+        r = np.zeros(transition_matrix.shape[0])
+        r[point_index] = 1
+        for _ in range(n_steps):
+            r = random_walk_step(transition_matrix, r)
+        embeddings[point_index] = r
+
+
+def compute_random_walk_embeddings(X: np.ndarray, y: np.ndarray, bias_factor: float, distance_metric: str, n_steps: int):
     distance_matrix = pairwise_distances(X, metric=distance_metric)
     similarity_matrix = np.exp(-distance_matrix)
     
     classes = np.unique(y)
-    n_points = X.shape[0]
-    
+    n_points = similarity_matrix.shape[0]
+
     embeddings = np.zeros(shape=(n_points, n_points))
     
     for target_class in classes:
+        logger.debug(f"Processing class {target_class}")
         S = similarity_matrix.copy()
 
         filter_vector = np.array(y == target_class).reshape(-1, 1)
@@ -41,7 +56,10 @@ def compute_random_walk_embeddings(X: np.ndarray, y: np.ndarray, bias_factor: fl
         
         class_point_indicies = np.where(y == target_class)[0]
         
-        for point_index in class_point_indicies:
-            embedding = embed_point_using_random_walk(transition_matrix, point_index)
-            embeddings[point_index] = embedding
+        compute_point_embeddings(
+            transition_matrix=transition_matrix,
+            point_indices=class_point_indicies,
+            n_steps=n_steps,
+            embeddings=embeddings
+        )
     return embeddings
