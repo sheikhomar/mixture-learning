@@ -112,7 +112,10 @@ class Worker:
                     job.process_id = -2
                     job.write_json(job_info_path)
                     shutil.move(job_info_path, f"{self._dir_completed}/{job_info_path.name}")
-                    shutil.copy(src=f"{self._dir_completed}/{job_info_path.name}", dst=job.working_dir)
+                    shutil.copy(
+                        src=f"{self._dir_completed}/{job_info_path.name}", 
+                        dst=f"{job.working_dir}/job-info.json"
+                    )
                 else:
                     print(" - Process stopped but done.out file does not exist! Discarding run.")
                     self._move_to_discarded(job_info_path)
