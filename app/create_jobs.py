@@ -28,7 +28,7 @@ class JobCreator:
             os.makedirs(working_dir, exist_ok=True)
 
             params_path = working_dir / "experiment-params.json"
-            exp_params.to_json(params_path)
+            exp_params.write_json(params_path)
 
             job_info = JobInfo()
             job_info.working_dir = working_dir
@@ -41,7 +41,7 @@ class JobCreator:
             }
 
             job_name = f"{self._experiment_type}.{self._experiment_name}.{experiment_no}.json"
-            job_info.to_json(ready_dir / job_name)
+            job_info.write_json(ready_dir / job_name)
 
 
 @click.command(help="Create jobs.")

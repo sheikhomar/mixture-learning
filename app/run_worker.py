@@ -42,7 +42,7 @@ class JobInfo:
             obj.command_params = content["command_params"]
             return obj
 
-    def to_json(self, job_info_path: Path) -> None:
+    def write_json(self, job_info_path: Path) -> None:
         def datetime_to_iso_str(dt: Optional[datetime]):
             if dt is None:
                 return None
@@ -110,7 +110,7 @@ class Worker:
                     print(f" - Completed at {completed_at}. Moving to completed.")
                     job.completed_at = completed_at
                     job.process_id = -2
-                    job.to_json(job_info_path)
+                    job.write_json(job_info_path)
                     shutil.move(job_info_path, f"{self._dir_completed}/{job_info_path.name}")
                     shutil.copy(src=f"{self._dir_completed}/{job_info_path.name}", dst=job.working_dir)
                 else:
@@ -205,7 +205,7 @@ class Worker:
         # Persist run details to disk.
         job_info.started_at = datetime.now()
         job_info.process_id = p.pid
-        job_info.to_json(job_info_path)
+        job_info.write_json(job_info_path)
 
         return True
 

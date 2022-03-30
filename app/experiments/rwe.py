@@ -30,10 +30,6 @@ class RandomWalkEmbeddingExperimentParams(ExperimentParams):
     allow_self_loops: bool
     random_seed: int
 
-    def to_json(self, file_path: Path):
-        with open(file_path, "w") as f:
-            json.dump(dataclasses.asdict(self), f, indent=4, sort_keys=False)
-
 
 class RandomWalkEmbeddingExperiment(Experiment):
     def __init__(self, experiment_params: Dict[str, object], working_dir: str) -> None:
