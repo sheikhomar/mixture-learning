@@ -15,3 +15,15 @@ def apply_noise_to_labels(df: pd.DataFrame, label_noise_proba: float):
         return current_label
     
     df["noisy_label"] = df.apply(compute_noisy_label, axis=1).astype(int)
+
+
+def compute_corruption_ratio_per_class(df: pd.DataFrame):
+    def count_proportion_of_corruption(df_sub_group):
+        filter_corrupted = df_sub_group["is_label_corrupted"] == 1
+        n_group_size = df_sub_group.shape[0]
+        df_corrupted_count = df_sub_group[filter_corrupted][["is_label_corrupted"]].count()
+        return df_corrupted_count / n_group_size
+        
+    df_result = df.groupby(["true_label"]).apply(count_proportion_of_corruption)
+    df_result.rename(columns={"is_label_corrupted": "corruption_ratio"}, inplace=True)
+    return df_result
