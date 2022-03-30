@@ -27,5 +27,11 @@ This projects relies on [pyenv](https://github.com/pyenv/pyenv) and [Poetry](htt
 4. Run worker
 
    ```bash
-    poetry run python -m app.run_worker -q data/queue --n-threads 1 --max-active 1 
+   poetry run python -m app.run_worker -q data/queue --n-threads 1 --max-active 1
+   ```
+
+5. Download experiments results from server
+
+   ```bash
+   rsync -av skadi:/home/omar/code/mixture-learning/data/experiments/ data/experiments-skadi
    ```
