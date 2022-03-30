@@ -131,11 +131,29 @@ def dimensions_vs_distance_metric() -> Generator[RandomWalkEmbeddingExperimentPa
                 data=params
             )
 
+def dim_dist_steps_bias_01() -> Generator[RandomWalkEmbeddingExperimentParams, None, None]:
+    for n_dim in [10, 50, 100, 150, 200]:
+        for min_distance in [2, 3, 4, 5, 6]:
+            for n_steps in [1, 5, 10, 25, 75]:
+                for bias_factor in [1, 2, 3, 5, 10]:
+                    params = generate_default_experiment()
+                    params["n_dim"] = n_dim
+                    params["min_distance"] = min_distance
+                    params["n_steps"] = n_steps
+                    params["bias_factor"] = bias_factor
+                    params["variance"] = 1.0
+                    yield from_dict(
+                        data_class=RandomWalkEmbeddingExperimentParams, 
+                        data=params
+                    )
+
 def generate_experiments(experiment_name: str) -> Generator[ExperimentParams, None, None]:
     if experiment_name == "n_dim":
         return generate_dimension_experiments()
     if experiment_name == "dist_dim":
         return dimensions_vs_distance_metric()
+    if experiment_name == "dim_dist_steps_bias_01":
+        return dim_dist_steps_bias_01()
     raise Exception(f"Unknown experiment: {experiment_name}")
 
 
