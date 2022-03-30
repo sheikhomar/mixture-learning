@@ -74,3 +74,7 @@ class SyntheticDataSet(DataSet):
     @property
     def labels(self) -> np.ndarray:
         return self._df[self.label_attribute]
+
+    @property
+    def true_labels(self) -> np.ndarray:
+        return self._df[self.true_label_attribute]
