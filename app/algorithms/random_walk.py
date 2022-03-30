@@ -35,10 +35,15 @@ def compute_point_embeddings(transition_matrix: np.ndarray, point_indices: np.nd
         embeddings[point_index] = r
 
 
-def compute_random_walk_embeddings(X: np.ndarray, y: np.ndarray, bias_factor: float, distance_metric: str, n_steps: int):
+def compute_random_walk_embeddings(X: np.ndarray, y: np.ndarray, distance_metric: str, allow_self_loops: bool, bias_factor: float, n_steps: int):
     distance_matrix = pairwise_distances(X, metric=distance_metric)
     similarity_matrix = np.exp(-distance_matrix)
     
+    if not allow_self_loops:
+        # Set the diagonal entries to zero because we
+        # there are no self loops in the graph.
+        np.fill_diagonal(similarity_matrix, val=0.0)
+
     classes = np.unique(y)
     n_points = similarity_matrix.shape[0]
 

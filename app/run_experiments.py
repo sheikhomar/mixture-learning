@@ -30,6 +30,7 @@ class ExperimentRunner:
             X=X,
             y=y,
             bias_factor=1,
+            allow_self_loops=False,
             distance_metric="sqeuclidean",
             n_steps=10,
         )
