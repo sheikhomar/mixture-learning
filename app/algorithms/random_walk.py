@@ -36,7 +36,10 @@ def compute_point_embeddings(transition_matrix: np.ndarray, point_indices: np.nd
 
 
 def compute_random_walk_embeddings(X: np.ndarray, y: np.ndarray, distance_metric: str, allow_self_loops: bool, bias_factor: float, n_steps: int):
+    logger.debug("Computing pairwise distances")
     distance_matrix = pairwise_distances(X, metric=distance_metric)
+
+    logger.debug("Computing similarity matrix")
     similarity_matrix = np.exp(-distance_matrix)
     
     if not allow_self_loops:
