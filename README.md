@@ -15,7 +15,7 @@ This projects relies on [pyenv](https://github.com/pyenv/pyenv) and [Poetry](htt
 2. Install dependencies
 
    ```bash
-   poetry install
+   poetry install --no-dev
    ```
 
 3. Create jobs
