@@ -43,8 +43,7 @@ class RandomWalkEmbeddingExperiment(Experiment):
     def run(self) -> None:
         logger = get_logger(name="rwe")
 
-        params_str = json.dumps(dataclasses.asdict(self._params), indent=4)
-        logger.debug(f"Running RandomWalkEmbeddingExperiment with params: \n{params_str}\n")
+        logger.debug(f"Running RandomWalkEmbeddingExperiment with params: \n{self._params}")
 
         np.random.default_rng(self._params.random_seed)
         np.random.seed(self._params.random_seed)

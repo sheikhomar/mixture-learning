@@ -22,6 +22,7 @@ class JobCreator:
         os.makedirs(ready_dir, exist_ok=True)
 
         for exp_params in generate_experiments(self._experiment_name):
+            print(f"Creating a job with experiment params: {exp_params}")
             time_stamp = datetime.now().strftime("%Y-%m-%d-%H-%M-%S-%f")
             experiment_no = f"{time_stamp}-{np.random.randint(0, 1e5):06d}"
             working_dir = self._output_dir / self._experiment_type / self._experiment_name / experiment_no
