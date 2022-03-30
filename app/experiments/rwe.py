@@ -112,7 +112,7 @@ def generate_default_experiment() -> Dict[str, object]:
     )
 
 def generate_dimension_experiments() -> Generator[RandomWalkEmbeddingExperimentParams, None, None]:
-    for n_dim in [2, 5, 10, 20, 30, 50, 70, 100]:
+    for n_dim in [2, 5, 10, 20, 30, 50, 70, 100, 150, 200]:
         params = generate_default_experiment()
         params["n_dim"] = n_dim
         yield from_dict(
@@ -120,10 +120,23 @@ def generate_dimension_experiments() -> Generator[RandomWalkEmbeddingExperimentP
             data=params
         )
 
-def generate_experiments(experiment_type: str) -> Generator[ExperimentParams, None, None]:
-    if experiment_type == "n_dim":
-        return generate_dimension_experiments()
+def dimensions_vs_distance_metric() -> Generator[RandomWalkEmbeddingExperimentParams, None, None]:
+    for n_dim in [2, 5, 10, 20, 30, 50, 70, 100, 150, 200]:
+        for metric in ["sqeuclidean", "euclidean"]:
+            params = generate_default_experiment()
+            params["n_dim"] = n_dim
+            params["distance_metric"] = metric
+            yield from_dict(
+                data_class=RandomWalkEmbeddingExperimentParams,
+                data=params
+            )
 
+def generate_experiments(experiment_name: str) -> Generator[ExperimentParams, None, None]:
+    if experiment_name == "n_dim":
+        return generate_dimension_experiments()
+    if experiment_name == "dist_dim":
+        return dimensions_vs_distance_metric()
+    raise Exception(f"Unknown experiment: {experiment_name}")
 
 
 # Following functions are must be present for each experiment type
