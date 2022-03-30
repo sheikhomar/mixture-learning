@@ -16,7 +16,6 @@ click = "^8.1.0"
 scikit-learn = "^1.0.2"
 numba = "^0.55.1"
 psutil = "^5.9.0"
-rq = "^1.10.1"
 
 [tool.poetry.dev-dependencies]
 jupyterlab = "^3.3.2"
