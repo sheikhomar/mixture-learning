@@ -161,6 +161,21 @@ def dim_dist_01() -> Generator[RandomWalkEmbeddingExperimentParams, None, None]:
                 data=params
             )
 
+def dim_dist_02() -> Generator[RandomWalkEmbeddingExperimentParams, None, None]:
+    for n_dim in [250, 300]:
+        for min_distance in [2, 3, 4, 5, 6, 10]:
+            params = generate_default_experiment()
+            params["n_dim"] = n_dim
+            params["min_distance"] = min_distance
+            params["bias_factor"] = n_dim**(1/4)
+            params["n_steps"] = 1
+            params["variance"] = 1.0
+            yield from_dict(
+                data_class=RandomWalkEmbeddingExperimentParams, 
+                data=params
+            )
+
+
 def generate_experiments(experiment_name: str) -> Generator[ExperimentParams, None, None]:
     if experiment_name == "n_dim":
         return generate_dimension_experiments()
