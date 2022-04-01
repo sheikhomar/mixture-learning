@@ -175,6 +175,35 @@ def dim_dist_02() -> Generator[RandomWalkEmbeddingExperimentParams, None, None]:
                 data=params
             )
 
+def dim_steps_01() -> Generator[RandomWalkEmbeddingExperimentParams, None, None]:
+    for n_dim in [10, 50, 100, 150, 200]:
+        for n_steps in [1, 2, 5, 10]:
+            params = generate_default_experiment()
+            params["n_dim"] = n_dim
+            params["min_distance"] = 2
+            params["bias_factor"] = n_dim**(1/4)
+            params["n_steps"] = n_steps
+            params["variance"] = 1.0
+            yield from_dict(
+                data_class=RandomWalkEmbeddingExperimentParams, 
+                data=params
+            )
+
+
+def dim_steps_02() -> Generator[RandomWalkEmbeddingExperimentParams, None, None]:
+    for n_dim in [10, 50, 100, 150, 200]:
+        for n_steps in [1, 2, 5, 10]:
+            params = generate_default_experiment()
+            params["n_dim"] = n_dim
+            params["min_distance"] = 3
+            params["bias_factor"] = n_dim**(1/4)
+            params["n_steps"] = n_steps
+            params["variance"] = 1.0
+            yield from_dict(
+                data_class=RandomWalkEmbeddingExperimentParams, 
+                data=params
+            )
+
 
 def generate_experiments(experiment_name: str) -> Generator[ExperimentParams, None, None]:
     if experiment_name == "n_dim":
@@ -187,6 +216,10 @@ def generate_experiments(experiment_name: str) -> Generator[ExperimentParams, No
         return dim_dist_01()
     if experiment_name == "dim_dist_02":
         return dim_dist_02()
+    if experiment_name == "dim_steps_01":
+        return dim_steps_01()
+    if experiment_name == "dim_steps_02":
+        return dim_steps_02()
     raise Exception(f"Unknown experiment: {experiment_name}")
 
 
