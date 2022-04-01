@@ -148,7 +148,7 @@ def dim_dist_steps_bias_01() -> Generator[RandomWalkEmbeddingExperimentParams, N
                     )
 
 def dim_dist_01() -> Generator[RandomWalkEmbeddingExperimentParams, None, None]:
-    for n_dim in [10, 50, 100, 150, 200, 300]:
+    for n_dim in [10, 50, 100, 150, 200]:
         for min_distance in [2, 3, 4, 5, 6, 10]:
             params = generate_default_experiment()
             params["n_dim"] = n_dim
