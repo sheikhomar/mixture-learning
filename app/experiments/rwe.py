@@ -185,6 +185,8 @@ def generate_experiments(experiment_name: str) -> Generator[ExperimentParams, No
         return dim_dist_steps_bias_01()
     if experiment_name == "dim_dist_01":
         return dim_dist_01()
+    if experiment_name == "dim_dist_02":
+        return dim_dist_02()
     raise Exception(f"Unknown experiment: {experiment_name}")
 
 
