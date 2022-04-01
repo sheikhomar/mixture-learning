@@ -48,7 +48,7 @@ def plot_2d(df_data: pd.DataFrame):
     fig.show()
 
 
-def assign_labels_based_on_clusters(df_results: pd.DataFrame, new_column_name: str="new_label") -> pd.DataFrame:
+def assign_labels_based_on_clusters(df_results: pd.DataFrame, new_column_name: str="pred_label") -> pd.DataFrame:
     """
     Assign labels based on the majority voting within each cluster.
     """
