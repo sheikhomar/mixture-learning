@@ -40,7 +40,12 @@ def compute_random_walk_embeddings(X: np.ndarray, y: np.ndarray, distance_metric
     distance_matrix = pairwise_distances(X, metric=distance_metric)
 
     logger.debug("Computing similarity matrix")
-    similarity_matrix = np.exp(-distance_matrix)
+
+    # Due to curse of dimensionality, the average distance between pair of points
+    # increase as the number of dimensions are increased. To avoid convergence issues
+    # with the random walk, divide the pair-wise distances with the number of dimensions.
+    n_dim = X.shape[1]
+    similarity_matrix = np.exp(-distance_matrix / n_dim)
     
     if not allow_self_loops:
         # Set the diagonal entries to zero because we
