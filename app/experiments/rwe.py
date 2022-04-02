@@ -220,22 +220,13 @@ def dim_steps_03() -> Generator[RandomWalkEmbeddingExperimentParams, None, None]
         )
 
 
-def generate_experiments(experiment_name: str) -> Generator[ExperimentParams, None, None]:
-    if experiment_name == "n_dim":
-        return generate_dimension_experiments()
-    if experiment_name == "dist_dim":
-        return dimensions_vs_distance_metric()
-    if experiment_name == "dim_dist_steps_bias_01":
-        return dim_dist_steps_bias_01()
-    if experiment_name == "dim_dist_01":
-        return dim_dist_01()
-    if experiment_name == "dim_dist_02":
-        return dim_dist_02()
-    if experiment_name == "dim_steps_01":
-        return dim_steps_01()
-    if experiment_name == "dim_steps_02":
-        return dim_steps_02()
-    raise Exception(f"Unknown experiment: {experiment_name}")
+AVAILABLE_EXPERIMENTS = [
+    dim_dist_01,
+    dim_dist_02,
+    dim_steps_01,
+    dim_steps_02,
+    dim_steps_03,
+]
 
 
 # Following functions are must be present for each experiment type
@@ -245,3 +236,19 @@ def initialize_experiment(name: str, params: Dict[str, object], working_dir: Pat
         experiment_params=params,
         working_dir=working_dir
     )
+
+
+def generate_experiments(experiment_name: str) -> Generator[ExperimentParams, None, None]:
+    if experiment_name == "n_dim":
+        return generate_dimension_experiments()
+    if experiment_name == "dist_dim":
+        return dimensions_vs_distance_metric()
+    if experiment_name == "dim_dist_steps_bias_01":
+        return dim_dist_steps_bias_01()
+
+    lookup_table = {f.__name__: f for f in AVAILABLE_EXPERIMENTS }
+    if experiment_name in lookup_table:
+        return lookup_table[experiment_name]()
+
+    raise Exception(f"Unknown experiment: {experiment_name}")
+
