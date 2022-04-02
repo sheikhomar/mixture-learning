@@ -305,6 +305,7 @@ AVAILABLE_EXPERIMENTS = [
     dim_steps_no_bias_01,
     dim_bias_01,
     dim_bias_02,
+    dim_bias_03,
 ]
 
 
