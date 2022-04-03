@@ -310,12 +310,12 @@ def small_dist_01() -> Generator[RandomWalkEmbeddingExperimentParams, None, None
             )
 
 
-def small_dist_02() -> Generator[RandomWalkEmbeddingExperimentParams, None, None]:
+def dist_below_one_01() -> Generator[RandomWalkEmbeddingExperimentParams, None, None]:
     for n_dim in [10, 50, 100, 150, 200]:
-        for dist_factor in [3, 2, 1, 1/2, 1/4]:
+        for dist_factor in [64, 16, 8, 4]:
             params = generate_default_experiment()
             params["n_dim"] = n_dim
-            params["min_distance"] = 1 + (1/np.sqrt(n_dim)) * dist_factor
+            params["min_distance"] = 1 / np.power(n_dim, 1/dist_factor)
             params["bias_factor"] = n_dim**(1/4)
             params["n_steps"] = 10
             params["variance"] = 1.0
@@ -337,7 +337,7 @@ AVAILABLE_EXPERIMENTS = [
     dim_bias_02,
     dim_bias_03,
     small_dist_01,
-    small_dist_02,
+    dist_below_one_01,
 ]
 
 
