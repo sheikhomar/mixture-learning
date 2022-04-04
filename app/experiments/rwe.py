@@ -524,6 +524,7 @@ AVAILABLE_EXPERIMENTS = [
     noisy_10_fixed_dist_04,
     noisy_10_fixed_dist_05,
     no_bias_single_step_01,
+    no_bias_multi_step_01,
 ]
 
 
