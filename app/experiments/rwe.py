@@ -428,6 +428,7 @@ AVAILABLE_EXPERIMENTS = [
     noisy_10_fixed_dist_02,
     noisy_10_fixed_dist_03,
     noisy_10_fixed_dist_04,
+    noisy_10_fixed_dist_05,
 ]
 
 
