@@ -342,6 +342,23 @@ def noisy_10_fixed_dist_01() -> Generator[RandomWalkEmbeddingExperimentParams, N
             )
 
 
+def noisy_10_fixed_dist_02() -> Generator[RandomWalkEmbeddingExperimentParams, None, None]:
+    for dist_factor in [3, 4, 5, 6]:
+        for n_dim in [10, 50, 100, 150, 200]:
+            params = generate_default_experiment()
+            params["label_noise_proba"] = 0.1
+            params["n_dim"] = n_dim
+            params["min_distance"] = np.power(n_dim, 1/4) * dist_factor
+            params["bias_factor"] = 1
+            params["n_steps"] = 10
+            params["variance"] = 1.0
+            
+            yield from_dict(
+                data_class=RandomWalkEmbeddingExperimentParams, 
+                data=params
+            )
+
+
 AVAILABLE_EXPERIMENTS = [
     dim_dist_01,
     dim_dist_02,
@@ -356,6 +373,7 @@ AVAILABLE_EXPERIMENTS = [
     small_dist_01,
     dist_below_one_01,
     noisy_10_fixed_dist_01,
+    noisy_10_fixed_dist_02,
 ]
 
 
