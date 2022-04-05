@@ -384,7 +384,7 @@ def no_bias_single_step_log10_01() -> Generator[RandomWalkEmbeddingExperimentPar
 
 
 def no_bias_single_step_var_01() -> Generator[RandomWalkEmbeddingExperimentParams, None, None]:
-    for variance in [1.0, 2.0, 3.0]:
+    for variance in [2.0, 3.0]:
         for n_dim in [300, 200, 100, 50, 10]:
             params = generate_default_experiment()
             params["n_dim"] = n_dim
