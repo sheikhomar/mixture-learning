@@ -487,6 +487,21 @@ def no_bias_single_step_var_07() -> Generator[RandomWalkEmbeddingExperimentParam
             )
 
 
+def no_bias_single_step_var_08() -> Generator[RandomWalkEmbeddingExperimentParams, None, None]:
+    for variance in [2, 3, 4, 5, 6, 8, 10]:
+        for n_dim in [100, 50, 10]:
+            params = generate_default_experiment()
+            params["n_dim"] = n_dim
+            params["n_steps"] = 1
+            params["min_distance"] = np.power(n_dim, 1/4) * (3 + np.log10(n_dim)) * (variance + np.power(n_dim, 1/2))
+            params["bias_factor"] = 1
+            params["variance"] = variance
+            yield from_dict(
+                data_class=RandomWalkEmbeddingExperimentParams, 
+                data=params
+            )
+
+
 def no_bias_multi_step_01() -> Generator[RandomWalkEmbeddingExperimentParams, None, None]:
     for n_steps in [6, 5, 4, 3, 2]:
         for dist_factor in [1, 2, 3, 4, 5, 6]:
@@ -699,6 +714,7 @@ AVAILABLE_EXPERIMENTS = [
     no_bias_single_step_var_05,
     no_bias_single_step_var_06,
     no_bias_single_step_var_07,
+    no_bias_single_step_var_08,
 ]
 
 
