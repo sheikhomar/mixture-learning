@@ -18,6 +18,7 @@ numba = "^0.55.1"
 psutil = "^5.9.0"
 dacite = "^1.6.0"
 pyarrow = "^7.0.0"
+networkx = "^2.8"
 
 [tool.poetry.dev-dependencies]
 jupyterlab = "^3.3.2"
