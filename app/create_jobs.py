@@ -1,12 +1,12 @@
 import os
 
 from datetime import datetime
+from importlib import import_module
 from pathlib import Path
 
 import click
 import numpy as np
 
-from app.experiments.rwe import generate_experiments
 from app.run_worker import JobInfo
 
 
@@ -27,6 +27,8 @@ class JobCreator:
     def run(self) -> None:
         ready_dir = self._queue_dir / "ready"
         os.makedirs(ready_dir, exist_ok=True)
+
+        generate_experiments = self._load_experiment_generator()
 
         for it in range(self._n_repetitions):
             for exp_params in generate_experiments(self._experiment_name):
@@ -51,6 +53,14 @@ class JobCreator:
 
                 job_name = f"{self._experiment_type}.{self._experiment_name}.{experiment_no}.json"
                 job_info.write_json(ready_dir / job_name)
+
+    def _load_experiment_generator(self):
+        try:
+            module_name = f"app.experiments.{self._experiment_type}"
+            experiment_module = import_module(module_name)
+        except ModuleNotFoundError:
+            raise ValueError(f"Experiment module '{module_name}' was not found.")
+        return experiment_module.generate_experiments # type: ignore
 
 
 @click.command(help="Create jobs.")
