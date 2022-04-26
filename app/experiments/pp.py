@@ -138,6 +138,66 @@ def steps_01() -> Generator[object, None, None]:
                 yield from_dict(data_class=PlantedPartitionExperimentParams, data=params)
 
 
+def steps_02() -> Generator[object, None, None]:
+    n_step = 2
+    for k in [10, 20, 50, 100]:
+        for q in [0.1, 0.2, 0.3, 0.4, 0.5]:
+            for p_add in [0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45]:
+                p = q + p_add
+                params = generate_default_experiment()
+                params["k"] = k
+                params["n_steps"] = n_step
+                params["p"] = p
+                params["q"] = q
+
+                yield from_dict(data_class=PlantedPartitionExperimentParams, data=params)
+
+
+def steps_05() -> Generator[object, None, None]:
+    n_step = 5
+    for k in [10, 20, 50, 100]:
+        for q in [0.1, 0.2, 0.3, 0.4, 0.5]:
+            for p_add in [0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45]:
+                p = q + p_add
+                params = generate_default_experiment()
+                params["k"] = k
+                params["n_steps"] = n_step
+                params["p"] = p
+                params["q"] = q
+
+                yield from_dict(data_class=PlantedPartitionExperimentParams, data=params)
+
+
+def steps_10() -> Generator[object, None, None]:
+    n_step = 10
+    for k in [10, 20, 50, 100]:
+        for q in [0.1, 0.2, 0.3, 0.4, 0.5]:
+            for p_add in [0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45]:
+                p = q + p_add
+                params = generate_default_experiment()
+                params["k"] = k
+                params["n_steps"] = n_step
+                params["p"] = p
+                params["q"] = q
+
+                yield from_dict(data_class=PlantedPartitionExperimentParams, data=params)
+
+
+def steps_100() -> Generator[object, None, None]:
+    n_step = 100
+    for k in [10, 20, 50, 100]:
+        for q in [0.1, 0.2, 0.3, 0.4, 0.5]:
+            for p_add in [0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45]:
+                p = q + p_add
+                params = generate_default_experiment()
+                params["k"] = k
+                params["n_steps"] = n_step
+                params["p"] = p
+                params["q"] = q
+
+                yield from_dict(data_class=PlantedPartitionExperimentParams, data=params)
+
+
 AVAILABLE_EXPERIMENTS = [
     steps_01,
 ]
