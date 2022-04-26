@@ -200,6 +200,10 @@ def steps_100() -> Generator[object, None, None]:
 
 AVAILABLE_EXPERIMENTS = [
     steps_01,
+    steps_02,
+    steps_05,
+    steps_10,
+    steps_100,
 ]
 
 
