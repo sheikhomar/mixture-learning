@@ -10,10 +10,10 @@ from sklearn.metrics import f1_score, accuracy_score, recall_score, precision_sc
 import utils
 
 
-def extract_performance_info(experiment_dir: Path):
+def compute_scores(experiment_dir: Path):
     df_results = pd.read_feather(experiment_dir / "clustering-results.feather")
     df_results = utils.assign_labels_based_on_clusters(df_results=df_results)
-    return dict(
+    scores = dict(
         accuracy_score = accuracy_score(
             y_true=df_results["true_label"],
             y_pred=df_results["pred_label"]
@@ -37,6 +37,20 @@ def extract_performance_info(experiment_dir: Path):
             zero_division=0,
         ),
     )
+    return scores
+
+
+def extract_performance_info(experiment_dir: Path):
+    scores_path = experiment_dir / "scores.json"
+    
+    if not scores_path.exists():
+        scores = compute_scores(experiment_dir=experiment_dir)
+        with open(scores_path, "w") as fp:
+            json.dump(scores, fp)
+    else:
+        with open(scores_path, "r") as fp:
+            scores = json.load(fp)
+    return scores
 
 
 def extract_experiment_result(job_path: Path):
