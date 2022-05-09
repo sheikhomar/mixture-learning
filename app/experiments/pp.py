@@ -241,9 +241,37 @@ def e3_k10() -> Generator[object, None, None]:
                 yield from_dict(data_class=PlantedPartitionExperimentParams, data=params)
 
 
+def e3_k10_v2() -> Generator[object, None, None]:
+    k = 10
+    for n_steps in [10, 15, 20, 25]:
+        for q in [0.01, 0.10, 0.20, 0.3]:
+            for p_add in [0.2, 0.3, 0.45, 0.6]:
+                p = q + p_add
+                params = generate_default_experiment()
+                params["k"] = k
+                params["n_steps"] = n_steps
+                params["p"] = p
+                params["q"] = q
+                yield from_dict(data_class=PlantedPartitionExperimentParams, data=params)
+
+
 def e3_k20() -> Generator[object, None, None]:
     k = 20
     for n_steps in [1, 5, 30, 50]:
+        for q in [0.01, 0.10, 0.20, 0.3]:
+            for p_add in [0.2, 0.3, 0.45, 0.6]:
+                p = q + p_add
+                params = generate_default_experiment()
+                params["k"] = k
+                params["n_steps"] = n_steps
+                params["p"] = p
+                params["q"] = q
+                yield from_dict(data_class=PlantedPartitionExperimentParams, data=params)
+
+
+def e3_k20_v2() -> Generator[object, None, None]:
+    k = 20
+    for n_steps in [10, 15, 20, 25]:
         for q in [0.01, 0.10, 0.20, 0.3]:
             for p_add in [0.2, 0.3, 0.45, 0.6]:
                 p = q + p_add
@@ -265,6 +293,8 @@ AVAILABLE_EXPERIMENTS = [
     e2_steps_20_v2,
     e3_k10,
     e3_k20,
+    e3_k10_v2,
+    e3_k20_v2,
 ]
 
 
