@@ -11,28 +11,33 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 
-def plot_2d(df_data: pd.DataFrame):
+def plot_2d(df_data: pd.DataFrame, color_attr: str="noisy_label"):
     df_plot_data = df_data.reset_index()
-    df_plot_data["noisy_label"] = df_plot_data["noisy_label"].astype(str)
-    df_plot_data.sort_values("noisy_label", inplace=True)
+    df_plot_data.sort_values(color_attr, inplace=True)
+    df_plot_data[color_attr] = df_plot_data[color_attr].astype(str)
+    hover_data = {
+        "feat_0": False, "feat_1": False,
+        "true_label": False, "noisy_label": False,
+        "True Label ": df_plot_data["true_label"],
+        "Noisy Label ": df_plot_data["noisy_label"],
+    }
+    if "cluster_label" in df_plot_data.columns:
+        hover_data["Cluster Label "] = df_plot_data["cluster_label"]
+    if "pred_label" in df_plot_data.columns:
+        hover_data["Predicted Label "] = df_plot_data["pred_label"]
     fig = px.scatter(
         df_plot_data,
         x="feat_0",
         y="feat_1",
-        color="noisy_label",
+        color=color_attr,
         opacity=0.5,
         color_discrete_sequence=px.colors.qualitative.G10,
         hover_name="index",
-        hover_data={
-            "feat_0": False, "feat_1": False,
-            "true_label": False, "noisy_label": False,
-            "True Label ": df_plot_data["true_label"],
-            "Noisy Label ": df_plot_data["noisy_label"],
-        },
+        hover_data=hover_data,
     )
     fig.update_layout(
         legend=dict(
-            title="Given Label",
+            title=color_attr,
             yanchor="top",
             y=0.99,
             xanchor="right",
